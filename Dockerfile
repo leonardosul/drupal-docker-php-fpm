@@ -30,7 +30,9 @@ RUN echo 'deb http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list &&
     wget https://www.dotdeb.org/dotdeb.gpg && \
     apt-key add dotdeb.gpg && \
     rm dotdeb.gpg && \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative && \
+    composer clear-cache
 
 
 # Install sendmail & set up sendmail config
