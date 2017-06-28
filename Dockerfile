@@ -24,8 +24,16 @@ RUN pecl install xdebug -y && \
     echo "xdebug.remote_autostart=true" >> /usr/local/etc/php/conf.d/xdebug.ini && \
     echo "upload_max_filesize=50M" >> /usr/local/etc/php/conf.d/xdebug.ini
 
-# Install sendmail
-# Set up sendmail config
+# Install Composer
+RUN echo 'deb http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list && \
+    echo 'deb-src http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list && \
+    wget https://www.dotdeb.org/dotdeb.gpg && \
+    apt-key add dotdeb.gpg && \
+    rm dotdeb.gpg && \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+
+# Install sendmail & set up sendmail config
 RUN apt-get update && apt-get install -q -y ssmtp mailutils && rm -rf /var/lib/apt/lists/*
 RUN echo "hostname=localhost.localdomain" > /etc/ssmtp/ssmtp.conf
 RUN echo "root=admin@localhost.com" >> /etc/ssmtp/ssmtp.conf
@@ -36,5 +44,4 @@ RUN echo "localhost localhost.localdomain" >> /etc/hosts
 # Add git to path
 ENV PATH="/usr/lib/git-core:${PATH}"
 
-# Directory to serve files from
 WORKDIR /var/www
