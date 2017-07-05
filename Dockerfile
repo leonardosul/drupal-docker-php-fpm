@@ -34,14 +34,22 @@ RUN echo 'deb http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list &&
     composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative && \
     composer clear-cache
 
+# Use composer to install Drush and Drupal Console
+RUN composer global config minimum-stability dev && \
+    composer global require drupal/console:dev-master && \
+    composer global require drush/drush
+
+
+# Add drush, git and drupal console to path
+ENV PATH $PATH:/root/.composer/vendor/bin:/usr/lib/git-core
 
 # Install sendmail & set up sendmail config
-RUN apt-get update && apt-get install -q -y ssmtp mailutils && rm -rf /var/lib/apt/lists/*
-RUN echo "hostname=localhost.localdomain" > /etc/ssmtp/ssmtp.conf
-RUN echo "root=admin@localhost.com" >> /etc/ssmtp/ssmtp.conf
-RUN echo "mailhub=drupal-mailhog:1025" >> /etc/ssmtp/ssmtp.conf
-RUN echo "sendmail_path=sendmail -i -t" >> /usr/local/etc/php/conf.d/php-sendmail.ini
-RUN echo "localhost localhost.localdomain" >> /etc/hosts
+RUN apt-get update && apt-get install -q -y ssmtp mailutils && rm -rf /var/lib/apt/lists/* && \
+    echo "hostname=localhost.localdomain" > /etc/ssmtp/ssmtp.conf && \
+    echo "root=admin@localhost.com" >> /etc/ssmtp/ssmtp.conf && \
+    echo "mailhub=drupal-mailhog:1025" >> /etc/ssmtp/ssmtp.conf && \
+    echo "sendmail_path=sendmail -i -t" >> /usr/local/etc/php/conf.d/php-sendmail.ini && \
+    echo "localhost localhost.localdomain" >> /etc/hosts
 
 # Add git to path
 ENV PATH="/usr/lib/git-core:${PATH}"
