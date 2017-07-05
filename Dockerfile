@@ -41,7 +41,7 @@ RUN composer global config minimum-stability dev && \
 
 
 # Add drush, git and drupal console to path
-ENV PATH $PATH:/root/.composer/vendor/bin:/usr/lib/git-core
+ENV PATH $PATH:/root/.composer/vendor/bin/drush:/root/.composer/vendor/bin/drupal:/usr/lib/git-core
 
 # Install sendmail & set up sendmail config
 RUN apt-get update && apt-get install -q -y ssmtp mailutils && rm -rf /var/lib/apt/lists/* && \
