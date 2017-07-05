@@ -34,14 +34,8 @@ RUN echo 'deb http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list &&
     composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative && \
     composer clear-cache
 
-# Use composer to install Drush and Drupal Console
-RUN composer global config minimum-stability dev && \
-    composer global require drupal/console:dev-master && \
-    composer global require drush/drush
-
-
 # Add drush, git and drupal console to path
-ENV PATH $PATH:/root/.composer/vendor/bin/drush:/root/.composer/vendor/bin/drupal:/usr/lib/git-core
+ENV PATH $PATH:/var/www/bin:/usr/lib/git-core
 
 # Install sendmail & set up sendmail config
 RUN apt-get update && apt-get install -q -y ssmtp mailutils && rm -rf /var/lib/apt/lists/* && \
