@@ -22,7 +22,7 @@ RUN pecl install xdebug -y && \
     echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini && \
     echo "xdebug.remote_port=9001" >> /usr/local/etc/php/conf.d/xdebug.ini && \
     echo "xdebug.remote_autostart=true" >> /usr/local/etc/php/conf.d/xdebug.ini && \
-    echo "xdebug.remote_connect_back=1" >> /usr/local/etc/php/conf.d/xdebug.ini && \
+    echo "xdebug.idekey=PHP_STORM" >> /usr/local/etc/php/conf.d/xdebug.ini && \
     echo "upload_max_filesize=50M" >> /usr/local/etc/php/conf.d/xdebug.ini
 
 # Install Composer
